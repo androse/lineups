@@ -9,13 +9,22 @@ require("node-jsx").install();
 
 var http = require('http'),
   React = require('react'),
+  lineUpData = require('./app/lib/line_up_data'),
   LineUp = React.createFactory(require('./app/view_components/line_up'));
 
 http.createServer(function(req, res) {
-  // serve svg
-  res.setHeader('Content-Type', 'image/svg+xml');
-  var svg = formatSVG(React.renderToStaticMarkup(LineUp({})));
-  res.end(svg)
+  if (req.url == '/') {
+    lineUpData.get(2014, 31, 755607, function(err, data) {
+      if (err) {
+        console.log(err);
+      } else {
+        // serve svg
+        res.setHeader('Content-Type', 'image/svg+xml');
+        var svg = formatSVG(React.renderToStaticMarkup(LineUp({lineUp: data})));
+        res.end(svg)
+      }
+    });
+  }
 }).listen(3000, function(err) {
   if (err) throw err;
   console.log('Listening on port 3000...');
