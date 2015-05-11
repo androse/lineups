@@ -14,7 +14,7 @@ var http = require('http'),
 
 http.createServer(function(req, res) {
   if (req.url == '/') {
-    lineUpData.get(2014, 31, 755607, function(err, data) {
+    lineUpData.get(2014, 35, 755646, function(err, data) {
       if (err) {
         console.log(err);
       } else {
