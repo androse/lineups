@@ -1,7 +1,7 @@
 var request = require('request');
 
-var BASE_URL = 'http://live.premierleague.com/syndicationdata';
-var FILE_NAME = 'lineups.json';
+const BASE_URL = 'http://live.premierleague.com/syndicationdata';
+const FILE_NAME = 'lineups.json';
 
 function generateUrl(competitionId, seasonId, matchDayId, matchId) {
   return BASE_URL +
