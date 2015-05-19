@@ -10,9 +10,14 @@ var LineUp = React.createFactory(require('../view_components/line_up'));
 function urlMatch(url, matches) {
   var params = parseUrl(url);
   var match = matches.findByTeams(params.home, params.away);
-  match.yearId = params.year;
 
-  return match;
+  if (match) {
+    match.yearId = params.year;
+
+    return match;
+  }
+
+  return null;
 }
 
 function parseUrl(url) {
@@ -32,10 +37,19 @@ function validUrl(url) {
   return validReg.test(url);
 }
 
-function renderSVG(res, data) {
+function renderError(res) {
+  var svg = React.renderToStaticMarkup(LineUpError());
+  renderSVG(res, svg);
+}
+
+function renderLineUp(res, data) {
+  var svg = React.renderToStaticMarkup(LineUp({lineUp: data}))
+  renderSVG(res, svg);
+}
+
+function renderSVG(res, svg) {
   res.setHeader('Content-Type', 'image/svg+xml');
-  var svg = formatSVG(React.renderToStaticMarkup(LineUp({lineUp: data})));
-  res.end(svg)
+  res.end(formatSVG(svg));
 }
 
 // React doesn't like xml attributes so add them here
@@ -57,13 +71,17 @@ function controller(req, res, matches) {
   if (validUrl(url)) {
     var match = urlMatch(url, matches);
 
-    lineUpData.get(match.yearId, match.weekId, match.id, function(err, data) {
-      if (err) {
-        console.log(err);
-      } else {
-        renderSVG(res, data);
-      }
-    });
+    if (match) {
+      lineUpData.get(match.yearId, match.weekId, match.id, function(err, data) {
+        if (err) {
+          console.log(err);
+        } else {
+          renderLineUp(res, data);
+        }
+      });
+    } else {
+      render
+    }
   }
 }
 
