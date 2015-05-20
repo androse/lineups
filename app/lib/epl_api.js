@@ -13,11 +13,28 @@ function generateUrl(parameters, fileName) {
 }
 
 function parseData(data) {
-  return JSON.parse(data).Data;
+  return formatKeys(JSON.parse(data).Data);
+}
+
+// gets rid of unconventional capitalized keys
+// eg: Id -> id
+function formatKeys(object) {
+  if (typeof object === 'object') {
+    for (var key in object) {
+      if (isNaN(key)) {
+        var newKey = key.substr(0, 1).toLowerCase() + key.substr(1);
+        object[newKey] = formatKeys(object[key]);
+        delete object[key];
+      } else {
+        object[key] = formatKeys(object[key]);
+      }
+    }
+  }
+
+  return object;
 }
 
 var EplApi = {
-
   get: function(parameters, fileName, cb) {
     var url = generateUrl(parameters, fileName);
 

@@ -10,11 +10,11 @@ Matches.prototype.findByTeams = function(homeCode, awayCode) {
   for (i in this.data) {
     var match = this.data[i];
 
-    if (match.HomeTeam.Code.toLowerCase() === homeCode &&
-      match.AwayTeam.Code.toLowerCase() === awayCode) {
+    if (match.homeTeam.code.toLowerCase() === homeCode &&
+      match.awayTeam.code.toLowerCase() === awayCode) {
         return {
-          id: match.Id,
-          weekId: match.GameWeekId
+          id: match.id,
+          matchDayId: match.matchDayId
         }
       }
   }

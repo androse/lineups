@@ -67,24 +67,18 @@ function formatSVG(svgString) {
   )
 }
 
-function controller(req, res, matches) {
+function controller(req, res, redisClient) {
   var url = sanitizeUrl(req.url);
 
   if (validUrl(url)) {
-    var match = urlMatch(url, matches);
-
-    if (match) {
-      lineUpData.get(match.yearId, match.weekId, match.id, function(err, data) {
-        if (err) {
-          console.log(err);
-        } else {
-          renderLineUp(res, data);
-        }
-      });
-    } else {
-      var errorText = "Couldn't find the requested match, sorry 'bout that!";
-      renderError(res, errorText);
-    }
+    redisClient.get(url, function(err, data) {
+      if (data) {
+        renderLineUp(res, JSON.parse(data));
+      } else {
+        var errorText = "Couldn't find the requested match, sorry 'bout that!";
+        renderError(res, errorText);
+      }
+    });
   } else {
     var errorText = "Invalid URL, please correct it and try again!";
     renderError(res, errorText);

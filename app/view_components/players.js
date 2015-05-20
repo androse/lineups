@@ -43,7 +43,7 @@ var Player = React.createClass({
       fontFamily: 'Futura, Verdana, Arial, sans-serif',
       fontSize: '18'
     };
-    
+
     var textX = x;
     var textY = y + radius + topPadding;
     var text = this.props.name;
@@ -64,14 +64,14 @@ var Players = React.createClass({
     var home = this.props.home;
     var players = this.props.players
       .filter(function(player){
-        return player.StartingStatus === "Starter";
+        return player.startingStatus === "Starter";
       }).map(function(player){
         return (
           <Player
-            name={player.Name}
-            number={player.BibNum}
-            xPerc={player.LineupX}
-            yPerc={player.LineupY}
+            name={player.name}
+            number={player.bibNum}
+            xPerc={player.lineupX}
+            yPerc={player.lineupY}
             home={home} />
         )
       });

@@ -11,8 +11,8 @@ var LineUp = React.createClass({
   render: function() {
     return (
       <Pitch>
-        <Players players={this.props.lineUp.HomeTeam.Lineup.Players} home={true} />
-        <Players players={this.props.lineUp.AwayTeam.Lineup.Players} home={false} />
+        <Players players={this.props.lineUp.homeTeam.lineup.players} home={true} />
+        <Players players={this.props.lineUp.awayTeam.lineup.players} home={false} />
       </Pitch>
     );
   }

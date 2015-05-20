@@ -22,7 +22,7 @@ function collectAllMatches(year, file) {
 }
 
 function parseData(data) {
-  return [].concat.apply([], data.map(function(day) { return day.Scores; }));
+  return [].concat.apply([], data.map(function(day) { return day.scores; }));
 }
 
 function writeData(data, file) {
