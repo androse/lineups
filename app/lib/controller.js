@@ -3,32 +3,10 @@
 // dimension param(s) in api url
 // use to set width and height
 require("node-jsx").install();
-var lineUpData = require('./line_up_data');
 var React = require('react');
 var LineUp = React.createFactory(require('../view_components/line_up'));
 var LineUpError =
   React.createFactory(require('../view_components/line_up_error'));
-
-function urlMatch(url, matches) {
-  var params = parseUrl(url);
-  var match = matches.findByTeams(params.home, params.away);
-
-  if (match) {
-    match.yearId = params.year;
-
-    return match;
-  }
-
-  return null;
-}
-
-function parseUrl(url) {
-  return {
-    year: parseInt(url.slice(0, 4)),
-    home: url.slice(4, 7).toLowerCase(),
-    away: url.slice(7, 10).toLowerCase()
-  };
-}
 
 function sanitizeUrl(url) {
   return url.replace(/\//g, '');
