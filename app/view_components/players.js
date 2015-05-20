@@ -43,6 +43,7 @@ var Player = React.createClass({
       fontFamily: 'Futura, Verdana, Arial, sans-serif',
       fontSize: '18'
     };
+    
     var textX = x;
     var textY = y + radius + topPadding;
     var text = this.props.name;

@@ -6,6 +6,8 @@ require("node-jsx").install();
 var lineUpData = require('./line_up_data');
 var React = require('react');
 var LineUp = React.createFactory(require('../view_components/line_up'));
+var LineUpError =
+  React.createFactory(require('../view_components/line_up_error'));
 
 function urlMatch(url, matches) {
   var params = parseUrl(url);
@@ -37,8 +39,8 @@ function validUrl(url) {
   return validReg.test(url);
 }
 
-function renderError(res) {
-  var svg = React.renderToStaticMarkup(LineUpError());
+function renderError(res, errorText) {
+  var svg = React.renderToStaticMarkup(LineUpError({text: errorText}));
   renderSVG(res, svg);
 }
 
@@ -80,8 +82,12 @@ function controller(req, res, matches) {
         }
       });
     } else {
-      render
+      var errorText = "Couldn't find the requested match, sorry 'bout that!";
+      renderError(res, errorText);
     }
+  } else {
+    var errorText = "Invalid URL, please correct it and try again!";
+    renderError(res, errorText);
   }
 }
 
