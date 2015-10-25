@@ -1,6 +1,7 @@
 var Matches = require('../app/lib/matches');
 var lineUpData = require('../app/lib/line_up_data');
 var redis = require('redis');
+var path = require('path');
 var redisClient = redis.createClient();
 
 function storeLineUp(key, data) {
@@ -11,7 +12,7 @@ function getLineUp(match) {
   if (Date.now() > Date.parse(match.dateTime)) {
     var home = match.homeTeam.code.toLowerCase();
     var away = match.awayTeam.code.toLowerCase();
-    var year = 2014;
+    var year = 2015;
     var matchDayId = match.matchDayId;
     var id = match.id;
 
@@ -34,7 +35,9 @@ function collectMatches(matches) {
   matchData.forEach(getLineUp);
 }
 
-Matches.readData('matches_2014.json', function(err, data) {
+var matchDataFile = process.argv[2];
+
+Matches.readData(matchDataFile, function(err, data) {
   if (err) {
     throw err;
   } else {
